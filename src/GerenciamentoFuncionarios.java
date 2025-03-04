@@ -17,9 +17,9 @@ public class GerenciamentoFuncionarios {
             System.out.println("#### MENU #### ");
             System.out.println("1. Cadastrar novo funcionário");
             System.out.println("2. Listar funcionários por tipo");
-            System.out.println("3. Executar função principal de um funcionário");
+            System.out.println("3. Executar função de um funcionário e calcular bônus");
             System.out.println("4. Encerrar programa");
-            System.out.println("Escolha uma opção: ");
+            System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
 
@@ -28,13 +28,13 @@ public class GerenciamentoFuncionarios {
                 case 2 -> listarFuncionarios();
                 case 3 -> executarFuncaoPrincipal();
                 case 4 -> System.out.println("Encerrando o programa...");
-                default -> System.out.println("Opção inválida! Por favor, escolha outra opção.");
+                default -> System.out.println("Opção inválida! Por favor, escolha outra opção.\n");
             }
         } while (opcao != 4);
     }
 
     private void cadastrarFuncionario() {
-        System.out.println("Selecione o tipo de funcionário pelo número:");
+        System.out.println("Selecione o tipo de funcionário que deseja cadastrar pelo número:");
         System.out.println("1- Secretário, 2- Gerente, 3- Desenvolvedor, 4- Técnico de TI");
         int tipo = scanner.nextInt();
         scanner.nextLine();
@@ -60,28 +60,49 @@ public class GerenciamentoFuncionarios {
     }
 
     private void listarFuncionarios() {
-        System.out.println("FUNCIONÁRIOS ADMINISTRATIVOS");
-        for (Funcionario f : funcionarios) {
-            if (f instanceof FuncionariosAdministrativos) {
-                f.exibirInformacoes();
+        if (funcionarios.isEmpty()) {
+            System.out.println("Nenhum funcionário cadastrado. Por favor, cadastre um funcionário.\n");
+            return;
+        }
+
+        System.out.println("SECRETÁRIOS");
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionario instanceof Secretario) {
+                funcionario.exibirInformacoes();
             }
         }
 
-        System.out.println("FUNCIONÁRIOS TÉCNICOS");
-        for (Funcionario f : funcionarios) {
-            if (f instanceof FuncionariosTecnicos) {
-                f.exibirInformacoes();
+        System.out.println("GERENTES");
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionario instanceof Gerente) {
+                funcionario.exibirInformacoes();
+            }
+        }
+
+        System.out.println("DESENVOLVEDORES");
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionario instanceof Desenvolvedor) {
+                funcionario.exibirInformacoes();
+            }
+        }
+
+        System.out.println("TÉCNICOS DE TI");
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionario instanceof TecnicoTI) {
+                funcionario.exibirInformacoes();
             }
         }
     }
 
     private void executarFuncaoPrincipal() {
-        System.out.print("Nome do funcionário: ");
+        System.out.print("\nNome do funcionário: ");
         String nome = scanner.nextLine();
 
         for (Funcionario funcionario : funcionarios) {
             if (funcionario.getNome().equalsIgnoreCase(nome)) {
                 funcionario.trabalhar();
+                System.out.println("Salário após bônus: " + funcionario.getSalario());
+                System.out.println();
                 return;
             }
         }

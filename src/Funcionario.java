@@ -14,7 +14,7 @@ public class Funcionario {
     }
 
     public void calcularBonus(double percentual){
-        salario = salario * percentual;
+        salario += salario * percentual;
     }
 
     public void exibirInformacoes(){
